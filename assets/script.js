@@ -85,6 +85,12 @@ function renderList() {
                             </button>
                         </div>
                     `;
+                    
+        div.onclick = function () {
+            const targetServer = servers.find(s => s.id === server.id);
+            showServerInfoModal(targetServer);
+        };
+
         elements.dnsList.appendChild(div);
     });
 
@@ -305,7 +311,10 @@ function showModal(contentHtml) {
     const modal = document.createElement('div');
     modal.className =
         'fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-[100] transition-opacity duration-300 opacity-0';
-    modal.innerHTML = `<div class="bg-[var(--card-bg)] backdrop-blur-xl p-5 rounded-2xl shadow-lg w-full max-w-md transition-transform duration-300 scale-95">${contentHtml}<button class="modal-close-button mt-5 bg-blue-600 text-white px-5 py-2 rounded-lg w-full text-sm">بستن</button></div>`;
+    modal.innerHTML = `<div class="bg-[var(--card-bg)] backdrop-blur-xl p-5 rounded-2xl shadow-lg w-full max-w-md transition-transform duration-300 scale-95">
+        ${contentHtml}
+        <button class="modal-close-button mt-5 bg-blue-600 text-white px-5 py-2 rounded-lg w-full text-sm">بستن</button>
+    </div>`;
     document.body.appendChild(modal);
     setTimeout(() => {
         modal.classList.add('opacity-100');
@@ -316,17 +325,31 @@ function showModal(contentHtml) {
         modal.firstElementChild.classList.remove('scale-100');
         setTimeout(() => modal.remove(), 300);
     };
+    const copyBtn = modal.querySelector('.copy-url-button');
+    if (copyBtn) {
+        copyBtn.onclick = () => {
+            const urlText = modal.querySelector('.copy-url-text')?.textContent;
+            if (urlText) {
+                navigator.clipboard.writeText(urlText.trim());
+                copyBtn.innerText = 'کپی شد!';
+                setTimeout(() => copyBtn.innerText = 'کپی آدرس', 1500);
+            }
+        };
+    }
 }
 
 function showServerInfoModal(server) {
     const content = `
-                <h3 class="text-base font-bold mb-3">${server.name}</h3>
-                <div class="text-xs space-y-2 text-right">
-                    <p><strong>گروه:</strong> ${server.group}</p>
-                    <p><strong>ویژگی‌ها:</strong> ${server.features.join('، ')}</p>
-                    <p><strong>سیاست حریم خصوصی:</strong> ${server.privacy}</p>
-                    <p class="text-gray-400 mt-3 pt-2 border-t border-[var(--item-border-color)]">URL تست: ${server.url}</p>
-                </div>`;
+        <h3 class="text-base font-bold mb-3">${server.name}</h3>
+        <div class="text-xs space-y-2 text-right">
+            <p><strong>گروه:</strong> ${server.group}</p>
+            <p><strong>ویژگی‌ها:</strong> ${server.features.join('، ')}</p>
+            <p><strong>سیاست حریم خصوصی:</strong> ${server.privacy}</p>
+            <div class="mt-3 pt-2 border-t border-[var(--item-border-color)]">
+                <div class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-left p-3 rounded-md font-mono text-xs select-all copy-url-text">${server.url}</div>
+                <button class="copy-url-button mt-2 bg-gray-700 text-white px-4 py-1 rounded text-xs">کپی آدرس</button>
+            </div>
+        </div>`;
     showModal(content);
 }
 
