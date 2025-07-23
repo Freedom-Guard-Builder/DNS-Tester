@@ -1,4 +1,4 @@
-<h1 align="center">$$\color{gold} \large \text{DNS Tester | تستر آنلاین DNS}$$</h1>
+<h1 align="center">$$\color{gold} \large \text{DNS Checker | تستر آنلاین DNS}$$</h1>
 
 [![صفحه وب](https://img.shields.io/badge/Visit-Website-cyan?style=for-the-badge&logo=githubpages)](https://darknessm427.github.io/Dns-Checker/)
 
@@ -29,7 +29,7 @@
 
 <h3 align="center">$$\color{yellow} \large \text{🚀 نحوه استفاده (How to Use)}$$</h3>
 
-1.  به [صفحه وب DNS Tester](https://darknessm427.github.io/Dns-Checker/) مراجعه کنید.
+1.  به [صفحه وب DNS Checker](https://darknessm427.github.io/Dns-Checker/) مراجعه کنید.
 2.  روی دکمه **"بررسی سرورها"** کلیک کنید.
 3.  منتظر بمانید تا تست تمام سرورها به پایان برسد.
 4.  لیست نتایج به ترتیب از سریع‌ترین به کندترین سرور مرتب می‌شود و بهترین DNS با یک آیکن ستاره مشخص می‌گردد.
