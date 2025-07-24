@@ -67,6 +67,8 @@ function addCustomServer(name, url) {
         status: 'neutral',
         ping: null,
         isBest: false,
+        ipv4: 'N/A',
+        ipv6: 'N/A',
     };
     customServers.push(newServer);
     saveCustomServers(customServers);
@@ -173,7 +175,6 @@ function renderList() {
             const server = servers.find(s => s.id === serverId);
             if (!server) return;
             
-            // **تغییر ۱:** رنگ دکمه انصراف در مودال حذف، خاکستری شد
             const modalContent = `
                 <h3 class="text-lg font-bold mb-4">تایید حذف</h3>
                 <p class="mb-5">آیا از حذف سرور <span class="font-bold">${server.name}</span> مطمئن هستید؟</p>
@@ -423,42 +424,67 @@ function showModal(contentHtml) {
         <button class="modal-close-button mt-5 bg-blue-600 text-white px-5 py-2 rounded-lg w-full text-sm">بستن</button>
     </div>`;
     document.body.appendChild(modal);
+    
     setTimeout(() => {
         modal.classList.add('opacity-100');
         modal.firstElementChild.classList.add('scale-100');
     }, 10);
+
     modal.querySelector('.modal-close-button').onclick = () => {
         modal.classList.remove('opacity-100');
         modal.firstElementChild.classList.remove('scale-100');
         setTimeout(() => modal.remove(), 300);
     };
-    const copyBtn = modal.querySelector('.copy-url-button');
-    if (copyBtn) {
+
+    modal.querySelectorAll('[data-copy-target]').forEach(copyBtn => {
         copyBtn.onclick = () => {
-            const urlText = modal.querySelector('.copy-url-text')?.textContent;
-            if (urlText) {
-                navigator.clipboard.writeText(urlText.trim());
-                copyBtn.innerText = 'کپی شد!';
-                setTimeout(() => copyBtn.innerText = 'کپی آدرس', 1500);
+            const targetId = copyBtn.dataset.copyTarget;
+            const targetElement = modal.querySelector(`#${targetId}`);
+            if (targetElement) {
+                const textToCopy = targetElement.innerText.trim();
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = copyBtn.innerText;
+                    copyBtn.innerText = 'کپی شد!';
+                    setTimeout(() => { copyBtn.innerText = originalText; }, 1500);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
             }
         };
-    }
+    });
 }
 
 function showServerInfoModal(server) {
+    const createInfoBlock = (title, text, id, isMultiLine = false) => {
+        if (!text || text === 'N/A') return '';
+        const formattedText = isMultiLine ? text.replace(/, /g, '<br>') : text;
+        return `
+            <div class="mt-3 pt-3 border-t border-[var(--item-border-color)]">
+                <p class="font-bold text-sm mb-1">${title}:</p>
+                <div class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-left p-3 rounded-md font-mono text-xs select-all" id="${id}">${formattedText}</div>
+                <button data-copy-target="${id}" class="copy-button mt-2 bg-gray-700 hover:bg-gray-600 text-white px-4 py-1 rounded text-xs">کپی</button>
+            </div>
+        `;
+    };
+
+    const urlBlock = createInfoBlock('DNS over HTTPS', server.url, `url-${server.id}`);
+    const ipv4Block = createInfoBlock('IPv4', server.ipv4, `ipv4-${server.id}`, true);
+    const ipv6Block = createInfoBlock('IPv6', server.ipv6, `ipv6-${server.id}`, true);
+    
     const content = `
         <h3 class="text-base font-bold mb-3">${server.name}</h3>
-        <div class="text-xs space-y-2 text-right">
+        <div class="text-xs space-y-2 text-right mb-3">
             <p><strong>گروه:</strong> ${server.group}</p>
             <p><strong>ویژگی‌ها:</strong> ${server.features.join('، ')}</p>
             <p><strong>سیاست حریم خصوصی:</strong> ${server.privacy}</p>
-            <div class="mt-3 pt-2 border-t border-[var(--item-border-color)]">
-                <div class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-left p-3 rounded-md font-mono text-xs select-all copy-url-text">${server.url}</div>
-                <button class="copy-url-button mt-2 bg-gray-700 text-white px-4 py-1 rounded text-xs">کپی آدرس</button>
-            </div>
-        </div>`;
+        </div>
+        ${urlBlock}
+        ${ipv4Block}
+        ${ipv6Block}
+    `;
     showModal(content);
 }
+
 
 function showAddDnsModal() {
     const modalContent = `
