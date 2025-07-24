@@ -32,14 +32,6 @@ const serverData = {
       ipv4: '10.202.10.102, 10.202.10.202',
       ipv6: 'N/A',
     },
-    'Lag Zero': {
-      url: 'https://dns.lagzerotm.com/dns-query',
-      features: ['گیمینگ', 'گذر از تحریم'],
-      privacy: 'ضعیف',
-      group: 'ایرانی',
-      ipv4: '95.38.132.152, 95.38.132.153',
-      ipv6: 'N/A',
-    },
     Electro: {
       url: 'https://dns.electrotm.org/dns-query',
       features: ['گذر از تحریم'],
