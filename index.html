@@ -87,9 +87,12 @@
     </div>
 
     <div class="lg:w-3/5 flex flex-col flex-grow min-h-0">
-      <div class="p-3 border-b border-[var(--border-color)]">
+      <div class="p-3 border-b border-[var(--border-color)] flex items-center gap-2">
         <input id="search-box" type="text" placeholder="جستجوی سرور..."
           class="w-full bg-black/10 p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+        <button id="add-dns-button" title="افزودن DNS سفارشی" class="flex-shrink-0 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        </button>
       </div>
       <main id="dns-list" class="flex-grow p-2 overflow-y-auto custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-2">
       </main>
