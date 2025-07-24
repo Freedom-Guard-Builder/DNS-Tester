@@ -24,6 +24,12 @@ const serverData = {
         privacy: 'استاندارد',
         group: 'ایرانی',
     },
+    'Lag Zero': {
+        url: 'https://dns.lagzerotm.com/dns-query',
+        features: ['گیمینگ', 'گذر از تحریم'],
+        privacy: 'استاندارد',
+        group: 'ایرانی',
+    },
     Electro: {
         url: 'https://dns.electrotm.org/dns-query',
         features: ['گذر از تحریم'],
