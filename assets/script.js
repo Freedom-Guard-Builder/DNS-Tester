@@ -17,7 +17,7 @@ const elements = {
     geolocation: document.getElementById('geolocation'),
     countryFlag: document.getElementById('country-flag'),
     searchBox: document.getElementById('search-box'),
-    addDnsButton: document.getElementById('add-dns-button'), // New
+    addDnsButton: document.getElementById('add-dns-button'),
     historyButton: document.getElementById('history-button'),
     shareButton: document.getElementById('share-button'),
     sharePage: document.getElementById('share-page'),
@@ -70,8 +70,8 @@ function addCustomServer(name, url) {
     };
     customServers.push(newServer);
     saveCustomServers(customServers);
-    loadServers(); // Reload all servers
-    renderList(); // Re-render the list
+    loadServers();
+    renderList();
 }
 
 function deleteCustomServer(serverId) {
@@ -108,11 +108,10 @@ function renderList() {
 
     filteredServers.forEach((server, index) => {
         const div = document.createElement('div');
-        div.className = `dns-item-box flex items-center justify-between p-2.5 rounded-xl transition-all duration-300 hover:bg-[var(--hover-bg)] cursor-pointer`;
+        div.className = `dns-item-box flex items-center justify-between p-2.5 rounded-xl transition-all duration-300 hover:bg-[var(--hover-bg)]`;
         div.style.opacity = '0';
         div.style.animation = `fadeInUp 0.5s ease-out ${index * 0.03}s forwards`;
-        div.dataset.serverId = server.id;
-
+        
         let statusHtml;
         switch (server.status) {
             case 'success':
@@ -131,6 +130,12 @@ function renderList() {
         const bestIcon = server.isBest
             ? `<svg class="w-4 h-4 text-yellow-400 ml-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`
             : '';
+        
+        const infoButton = `
+            <button data-server-id="${server.id}" class="info-button p-1 text-[var(--icon-color)] hover:text-blue-500 transition-colors" title="اطلاعات سرور">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+        `;
 
         const deleteButton = server.isCustom
             ? `<button data-server-id="${server.id}" class="delete-button p-1 text-[var(--icon-color)] hover:text-red-500 transition-colors" title="حذف سرور">
@@ -145,16 +150,17 @@ function renderList() {
             </div>
             <div class="flex items-center flex-shrink-0 gap-1">
                 <div id="status-${server.id}" class="transition-all duration-300 w-16 text-right">${statusHtml}</div>
+                ${infoButton}
                 ${deleteButton}
             </div>
         `;
         elements.dnsList.appendChild(div);
     });
 
-    elements.dnsList.querySelectorAll('.dns-item-box').forEach(item => {
-        item.addEventListener('click', e => {
-            if (e.target.closest('.delete-button')) return;
-            const serverId = item.dataset.serverId;
+    elements.dnsList.querySelectorAll('.info-button').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const serverId = e.currentTarget.dataset.serverId;
             const server = servers.find(s => s.id === serverId);
             if (server) showServerInfoModal(server);
         });
@@ -166,13 +172,14 @@ function renderList() {
             const serverId = e.currentTarget.dataset.serverId;
             const server = servers.find(s => s.id === serverId);
             if (!server) return;
-
+            
+            // **تغییر ۱:** رنگ دکمه انصراف در مودال حذف، خاکستری شد
             const modalContent = `
                 <h3 class="text-lg font-bold mb-4">تایید حذف</h3>
                 <p class="mb-5">آیا از حذف سرور <span class="font-bold">${server.name}</span> مطمئن هستید؟</p>
                 <div class="flex justify-end gap-3">
-                    <button class="modal-cancel-button bg-gray-200 dark:bg-gray-600 text-[var(--text-color)] px-4 py-2 rounded-lg">انصراف</button>
-                    <button class="modal-confirm-delete bg-red-600 text-white px-4 py-2 rounded-lg">حذف</button>
+                    <button class="modal-cancel-button bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">انصراف</button>
+                    <button class="modal-confirm-delete bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">حذف</button>
                 </div>
             `;
             const modal = createCustomModal(modalContent);
@@ -459,15 +466,15 @@ function showAddDnsModal() {
         <form id="add-dns-form" class="space-y-4">
             <div>
                 <label for="custom-dns-name" class="block text-sm font-medium mb-1">نام نمایشی</label>
-                <input type="text" id="custom-dns-name" required class="w-full bg-gray-100 dark:bg-gray-800 p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="مثلا: My DNS">
+                <input type="text" id="custom-dns-name" required class="w-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="مثلا: My DNS">
             </div>
             <div>
                 <label for="custom-dns-url" class="block text-sm font-medium mb-1">آدرس DNS over HTTPS</label>
-                <input type="url" id="custom-dns-url" required class="w-full bg-gray-100 dark:bg-gray-800 p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-left" placeholder="https://dns.example.com/dns-query">
+                <input type="url" id="custom-dns-url" required class="w-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 p-2 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-left" placeholder="https://dns.example.com/dns-query">
             </div>
             <div class="pt-2 flex justify-end gap-3">
-                 <button type="button" class="modal-cancel-button bg-gray-200 dark:bg-gray-600 text-[var(--text-color)] px-4 py-2 rounded-lg">انصراف</button>
-                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">ذخیره</button>
+                 <button type="button" class="modal-cancel-button bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">انصراف</button>
+                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">ذخیره</button>
             </div>
         </form>
     `;
