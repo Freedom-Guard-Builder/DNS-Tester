@@ -2,10 +2,6 @@ const serverData = {
     // --- Iranian Servers (for sanction bypassing) ---
     'Shecan (شکن)': {
       url: 'https://free.shecan.ir/dns-query',
-      featconst serverData = {
-    // --- Iranian Servers (for sanction bypassing) ---
-    'Shecan (شکن)': {
-      url: 'https://free.shecan.ir/dns-query',
       features: ['گذر از تحریم'],
       privacy: 'متوسط',
       group: 'ایرانی',
