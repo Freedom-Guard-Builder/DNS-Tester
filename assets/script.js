@@ -436,6 +436,7 @@ function showModal(contentHtml) {
         setTimeout(() => modal.remove(), 300);
     };
 
+    // منطق کپی هوشمند برای تمام دکمه‌های کپی
     modal.querySelectorAll('[data-copy-target]').forEach(copyBtn => {
         copyBtn.onclick = () => {
             const targetId = copyBtn.dataset.copyTarget;
