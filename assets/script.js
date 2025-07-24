@@ -39,7 +39,6 @@ function saveCustomServers(customServers) {
 
 function loadServers() {
     const customServers = getCustomServers();
-    // Create a deep copy of initialServers to prevent mutation
     const initialServersCopy = JSON.parse(JSON.stringify(initialServers));
     servers = [...initialServersCopy, ...customServers];
 }
@@ -152,7 +151,6 @@ function renderList() {
         elements.dnsList.appendChild(div);
     });
 
-    // Attach event listeners
     elements.dnsList.querySelectorAll('.dns-item-box').forEach(item => {
         item.addEventListener('click', e => {
             if (e.target.closest('.delete-button')) return;
