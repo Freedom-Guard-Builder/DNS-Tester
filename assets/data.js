@@ -155,6 +155,24 @@ const serverData = {
         ipv6: '2400:3200::1, 2400:3200:baba::1',
     },
 
+    // --- Unfiltered & Standard Performance DNS Providers in Europe ---
+    'DNS4EU Unfiltered': {
+        url: 'https://unfiltered.joindns4.eu/dns-query',
+        features: ['بدون فیلتر', 'سریع', 'پشتیبانی DoH/DoT'],
+        privacy: 'حفظ حریم خصوصی، لاگ محدود',
+        group: 'اروپا (DNS4EU)',
+        ipv4: '86.54.11.100, 86.54.11.200',
+        ipv6: '2a13:1001::86:54:11:100, 2a13:1001::86:54:11:200',
+    },
+    'DNS4EU Protective': {
+        url: 'https://protective.joindns4.eu/dns-query',
+        features: ['فیلتر سایت مخرب', 'حفاظت بدافزار', 'پشتیبانی DoH/DoT'],
+        privacy: 'حفظ حریم خصوصی، لاگ محدود',
+        group: 'اروپا (DNS4EU)',
+        ipv4: '86.54.11.1, 86.54.11.201',
+        ipv6: '2a13:1001::86:54:11:1, 2a13:1001::86:54:11:201',
+    },
+    
     // --- Ad-blocking & Anti-tracking Providers ---
     'AdGuard (Default)': {
         url: 'https://dns.adguard-dns.com/dns-query',
