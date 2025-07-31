@@ -11,7 +11,7 @@
 | Shecan (شکن)  | `https://free.shecan.ir/dns-query` | گذر از تحریم        | متوسط      | ایرانی | 178.22.122.100, 185.51.200.2   | N/A   |
 | Begzar (بگذر) | `https://dns.begzar.ir/dns-query`  | گذر از تحریم        | متوسط      | ایرانی | N/A                            | N/A   |
 | 403.online    | `https://dns.403.online/dns-query` | گذر از تحریم        | متوسط      | ایرانی | 10.202.10.10, 10.202.10.11    | N/A   |
-| Radar Game    | `https://dns.radar.game/dns-query` | گیمینگ، گذر از تحریم | متوسط      | ایرانی | 10.202.10.102, 10.202.10.202  | N/A   |
+| Radar Game    | `https://dns.radar.game/dns-query` | گیمینگ، گذر از تحریم | متوسط      | ایرانی | 10.202.10.10, 10.202.10.11  | N/A   |
 | Electro       | `https://dns.electrotm.org/dns-query` | گذر از تحریم        | نامشخص     | ایرانی | 78.157.42.100, 78.157.42.101  | N/A   |
 | xStack        | `https://rustdns.devefun.org/dns-query` | گذر از تحریم، نصب پکیج لینوکس | متوسط | ایرانی | N/A                            | N/A   |
 
